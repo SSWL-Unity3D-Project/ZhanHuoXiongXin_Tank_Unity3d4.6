@@ -8,7 +8,7 @@ public class XKCheckGameServerIP
 		if (Network.player.ipAddress == NetworkServerNet.ServerPortIP) {
 			return;
 		}
-		ChangePcIP(2);
+		//ChangePcIP(2);
 	}
 
 	static void  ChangePcIP(int ip)
