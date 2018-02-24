@@ -526,8 +526,14 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 	}
 
+    public bool IsStopMovePlayer = false;
 	void Update()
 	{
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            IsStopMovePlayer = !IsStopMovePlayer;
+        }
+
 		if (Input.GetKeyUp(KeyCode.P) && GameMovieCtrl.IsTestThreeScreen) {
 			GameMovieCtrl.TestGameThreeScreen();
 		}

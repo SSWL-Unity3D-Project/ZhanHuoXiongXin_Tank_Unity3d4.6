@@ -581,6 +581,12 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 				yield return new WaitForSeconds(0.04f);
 				continue;
 			}
+
+            if (XkGameCtrl.GetInstance().IsStopMovePlayer)
+            {
+                yield return new WaitForSeconds(0.04f);
+                continue;
+            }
 			
 			if (!XkGameCtrl.IsActivePlayerOne
 			    && !XkGameCtrl.IsActivePlayerTwo
