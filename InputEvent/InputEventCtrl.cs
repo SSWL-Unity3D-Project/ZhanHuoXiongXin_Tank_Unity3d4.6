@@ -170,12 +170,22 @@ public class InputEventCtrl : MonoBehaviour {
 			DongGanUICtrl.ShowDongGanInfo();
 		}
 		pcvr.SetIsPlayerActivePcvr();
-	}
-	#endregion
-	
-//	float TimeSetEnterMoveBt;
-//	ButtonState SetEnterBtSt = ButtonState.UP;
-	void Update()
+    }
+
+    public event EventHandel ClickStopMovePlayerEvent;
+    public void ClickStopMovePlayerBt(ButtonState val)
+    {
+        if (ClickStopMovePlayerEvent != null)
+        {
+            ClickStopMovePlayerEvent(val);
+        }
+        pcvr.SetIsPlayerActivePcvr();
+    }
+    #endregion
+
+    //	float TimeSetEnterMoveBt;
+    //	ButtonState SetEnterBtSt = ButtonState.UP;
+    void Update()
 	{
 //		if (SetEnterBtSt == ButtonState.DOWN && Time.time - TimeSetEnterMoveBt > 2f) {
 //			HardwareCheckCtrl.OnRestartGame();
@@ -195,8 +205,18 @@ public class InputEventCtrl : MonoBehaviour {
 			XKGlobalData.SetCoinPlayerTwo(coinVal);
 		}
 
-		//StartBt PlayerOne
-		if(Input.GetKeyUp(KeyCode.G))
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            ClickStopMovePlayerBt(ButtonState.UP);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ClickStopMovePlayerBt(ButtonState.DOWN);
+        }
+
+        //StartBt PlayerOne
+        if (Input.GetKeyUp(KeyCode.G))
 		{
 			ClickStartBtOne( ButtonState.UP );
 		}

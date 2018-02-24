@@ -39,7 +39,11 @@ public class XKCannonCtrl : MonoBehaviour {
 	public NpcPathCtrl AmmoMovePath; //拍摄循环动画时，使子弹可以做抛物线运动.
 	Transform CannonTran;
 	bool IsDoFireAnimation;
-	bool IsDeathNpc;
+    /// <summary>
+    /// npc是否被击杀.
+    /// </summary>
+    [HideInInspector]
+    public bool IsDeathNpc;
 	bool IsStopAnimation;
 	bool IsDouGuanDaPao;
 	bool IsPlayPaoGuanAnimation;
