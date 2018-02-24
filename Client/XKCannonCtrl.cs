@@ -11,7 +11,7 @@ public class XKCannonCtrl : MonoBehaviour {
 	GameObject[] DaPaoAmmoLiZiObj;
 	public Transform PaoGuan;
 	public Transform[] SpawnAmmoPoint;
-	[Range(1f, 1000f)] public float FireDis = 50f;
+	[Range(0f, 1000f)] public float FireDis = 50f;
 	//炮管角度控制.
 	/*[Range(275f, 355f)]public float MaxPaoGuanJDVal = 355f;
 	[Range(275f, 355f)]public float MinPaoGuanJDVal = 275f;*/
@@ -58,8 +58,8 @@ public class XKCannonCtrl : MonoBehaviour {
 		}
 
 		if (SpawnAmmoPoint.Length <= 0) {
-			Debug.LogWarning("XKCannonCtrl -> SpawnAmmoPoint was wrong!");
-			IsOutputError = true;
+			//Debug.LogWarning("XKCannonCtrl -> SpawnAmmoPoint was wrong!");
+			//IsOutputError = true;
 		}
 		else {
 			for (int i = 0; i < SpawnAmmoPoint.Length; i ++) {
