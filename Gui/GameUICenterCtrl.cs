@@ -12,6 +12,12 @@ public class GameUICenterCtrl : SSUiRoot
     public Object ZuDangUIPrefab;
     Object ZuDangUIObj;
 
+    /// <summary>
+    /// 空袭阻挡UI界面预制.
+    /// </summary>
+    public Object KongXiZuDangUIPrefab;
+    Object KongXiZuDangUIObj;
+
     static GameUICenterCtrl _Instance;
     public static GameUICenterCtrl GetInstance()
     {
@@ -40,6 +46,26 @@ public class GameUICenterCtrl : SSUiRoot
         if (ZuDangUIObj != null)
         {
             Destroy(ZuDangUIObj);
+        }
+    }
+
+
+    /// <summary>
+    /// 产生空袭阻挡UI界面.
+    /// </summary>
+    public void SpawnKongXiZuDangUI()
+    {
+        KongXiZuDangUIObj = Instantiate((GameObject)KongXiZuDangUIPrefab, transform);
+    }
+
+    /// <summary>
+    /// 删除空袭阻挡UI界面.
+    /// </summary>
+    public void RemoveKongXiZuDangUI()
+    {
+        if (KongXiZuDangUIObj != null)
+        {
+            Destroy(KongXiZuDangUIObj);
         }
     }
 }

@@ -2,12 +2,31 @@
 
 public class SSTriggerZuDang : MonoBehaviour
 {
+    /// <summary>
+    /// 阻挡类型.
+    /// </summary>
+    public enum ZuDangType
+    {
+        Null,     //无用的.
+        PuTong,   //普通阻挡.
+        KongXi,   //空袭阻挡.
+    }
+    public ZuDangType ZuDangState = ZuDangType.Null;
+
     bool IsActiveTrigger = false;
     /// <summary>
     /// 场景中阻挡NPC数组.
     /// </summary>
     public XKCannonCtrl[] ZuDangArray;
     public AiPathCtrl TestPlayerPath;
+
+    void Start()
+    {
+        if (ZuDangState == ZuDangType.Null)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     void OnDrawGizmosSelected()
     {
@@ -37,13 +56,31 @@ public class SSTriggerZuDang : MonoBehaviour
                 XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(false);
                 XkGameCtrl.GetInstance().SetIsStopMovePlayer(false);
                 //关闭提示框UI.
-                GameUICenterCtrl.GetInstance().RemoveZuDangUI();
+                switch (ZuDangState)
+                {
+                    case ZuDangType.PuTong:
+                        {
+                            GameUICenterCtrl.GetInstance().RemoveZuDangUI();
+                            break;
+                        }
+                    case ZuDangType.KongXi:
+                        {
+                            GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
+                            break;
+                        }
+                }
             }
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if (ZuDangState == ZuDangType.Null)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         if (JiFenJieMianCtrl.GetInstance().GetIsShowFinishTask())
         {
             return;
@@ -66,7 +103,23 @@ public class SSTriggerZuDang : MonoBehaviour
             XkGameCtrl.GetInstance().SetIsStopMovePlayer(true);
             XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
             //打开提示框UI.
-            GameUICenterCtrl.GetInstance().SpawnZuDangUI();
+            switch (ZuDangState)
+            {
+                case ZuDangType.PuTong:
+                    {
+                        GameUICenterCtrl.GetInstance().SpawnZuDangUI();
+                        break;
+                    }
+                case ZuDangType.KongXi:
+                    {
+                        GameUICenterCtrl.GetInstance().SpawnKongXiZuDangUI();
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
 
