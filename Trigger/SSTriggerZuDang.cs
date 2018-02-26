@@ -20,26 +20,37 @@ public class SSTriggerZuDang : MonoBehaviour
     public XKCannonCtrl[] ZuDangArray;
 
     /// <summary>
-    /// 导弹预制.
+    /// 空袭阻挡数据.
     /// </summary>
-    public GameObject DaoDanPrefab;
-    /// <summary>
-    /// 导弹产生点.
-    /// </summary>
-    public Transform[] AmmoPointTr;
-    /// <summary>
-    /// 产生导弹的延迟时间.
-    /// </summary>
-    [Range(0f, 600f)]
-    public float TimeSpawnDaoDan = 15f;
-    /// <summary>
-    /// 空袭阻挡删除的延迟时间.
-    /// </summary>
-    [Range(0f, 600f)]
-    public float TimeRemoveZuDang = 3f;
-    float TimeLastKongXi = 0f;
-    bool IsCreatKongXiDaoDan = false;
-    bool IsRemoveKongXiZuDang = false;
+    [System.Serializable]
+    public class KongXiZuDangDate
+    {
+        /// <summary>
+        /// 导弹预制.
+        /// </summary>
+        public GameObject DaoDanPrefab;
+        /// <summary>
+        /// 导弹产生点.
+        /// </summary>
+        public Transform[] AmmoPointTr;
+        /// <summary>
+        /// 产生导弹的延迟时间.
+        /// </summary>
+        [Range(0f, 600f)]
+        public float TimeSpawnDaoDan = 15f;
+        /// <summary>
+        /// 空袭阻挡删除的延迟时间.
+        /// </summary>
+        [Range(0f, 600f)]
+        public float TimeRemoveZuDang = 3f;
+        [HideInInspector]
+        public float TimeLastKongXi = 0f;
+        [HideInInspector]
+        public bool IsCreatKongXiDaoDan = false;
+        [HideInInspector]
+        public bool IsRemoveKongXiZuDang = false;
+    }
+    public KongXiZuDangDate KongXiDt = new KongXiZuDangDate();
     XkPlayerCtrl mPlayerScript;
     public AiPathCtrl TestPlayerPath;
 
@@ -75,16 +86,16 @@ public class SSTriggerZuDang : MonoBehaviour
         {
             if (ZuDangState == ZuDangType.KongXi)
             {
-                if (!IsCreatKongXiDaoDan && Time.time - TimeLastKongXi >= TimeSpawnDaoDan)
+                if (!KongXiDt.IsCreatKongXiDaoDan && Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeSpawnDaoDan)
                 {
-                    IsCreatKongXiDaoDan = true;
-                    TimeLastKongXi = Time.time;
-                    SpawnKongXiDaoDan(DaoDanPrefab);
+                    KongXiDt.IsCreatKongXiDaoDan = true;
+                    KongXiDt.TimeLastKongXi = Time.time;
+                    SpawnKongXiDaoDan(KongXiDt.DaoDanPrefab);
                 }
 
-                if (IsCreatKongXiDaoDan && !IsRemoveKongXiZuDang && Time.time - TimeLastKongXi >= TimeRemoveZuDang)
+                if (KongXiDt.IsCreatKongXiDaoDan && !KongXiDt.IsRemoveKongXiZuDang && Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeRemoveZuDang)
                 {
-                    IsRemoveKongXiZuDang = true;
+                    KongXiDt.IsRemoveKongXiZuDang = true;
                     if (!CheckIsMovePlayer())
                     {
                         //删除空袭阻挡.
@@ -143,7 +154,7 @@ public class SSTriggerZuDang : MonoBehaviour
         if (!CheckIsMovePlayer())
         {
             IsActiveTrigger = true;
-            TimeLastKongXi = Time.time;
+            KongXiDt.TimeLastKongXi = Time.time;
             XkGameCtrl.GetInstance().SetIsStopMovePlayer(true);
             XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
             //打开提示框UI.
@@ -209,13 +220,13 @@ public class SSTriggerZuDang : MonoBehaviour
             return;
         }
 
-        int max = AmmoPointTr.Length;
+        int max = KongXiDt.AmmoPointTr.Length;
         for (int i = 0; i < max; i++)
         {
-            if (mPlayerScript != null && AmmoPointTr[i] != null)
+            if (mPlayerScript != null && KongXiDt.AmmoPointTr[i] != null)
             {
-                AmmoPointTr[i].gameObject.SetActive(false);
-                mPlayerScript.SpawnPlayerDaoDan(AmmoPointTr[i], playerDaoDan);
+                KongXiDt.AmmoPointTr[i].gameObject.SetActive(false);
+                mPlayerScript.SpawnPlayerDaoDan(KongXiDt.AmmoPointTr[i], playerDaoDan);
             }
         }
     }

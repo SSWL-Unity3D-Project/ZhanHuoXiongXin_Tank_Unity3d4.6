@@ -5,7 +5,6 @@
 /// </summary>
 public class GameUICenterCtrl : SSUiRoot
 {
-    Transform UIRootTr;
     /// <summary>
     /// 阻挡UI界面预制.
     /// </summary>
@@ -27,7 +26,6 @@ public class GameUICenterCtrl : SSUiRoot
     void Awake()
     {
         _Instance = this;
-        UIRootTr = transform.root;
     }
     
     /// <summary>
