@@ -37,6 +37,7 @@ public class SSTriggerZuDang : MonoBehaviour
                 XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(false);
                 XkGameCtrl.GetInstance().SetIsStopMovePlayer(false);
                 //关闭提示框UI.
+                GameUICenterCtrl.GetInstance().RemoveZuDangUI();
             }
         }
     }
@@ -65,6 +66,7 @@ public class SSTriggerZuDang : MonoBehaviour
             XkGameCtrl.GetInstance().SetIsStopMovePlayer(true);
             XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
             //打开提示框UI.
+            GameUICenterCtrl.GetInstance().SpawnZuDangUI();
         }
     }
 
