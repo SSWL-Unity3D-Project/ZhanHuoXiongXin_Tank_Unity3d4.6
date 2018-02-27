@@ -49,6 +49,8 @@ public class SSTriggerZuDang : MonoBehaviour
         public bool IsCreatKongXiDaoDan = false;
         [HideInInspector]
         public bool IsRemoveKongXiZuDang = false;
+        [HideInInspector]
+        public bool IsMovePlayer = false;
     }
     public KongXiZuDangDate KongXiDt = new KongXiZuDangDate();
     XkPlayerCtrl mPlayerScript;
@@ -99,7 +101,9 @@ public class SSTriggerZuDang : MonoBehaviour
                     if (!CheckIsMovePlayer())
                     {
                         //删除空袭阻挡.
-                        RemoveAllZuDang();
+                        //RemoveAllZuDang();
+                        //使玩家可以继续移动,当敌人空袭完成后.
+                        KongXiDt.IsMovePlayer = true;
                     }
                 }
             }
@@ -183,6 +187,11 @@ public class SSTriggerZuDang : MonoBehaviour
     /// </summary>
     bool CheckIsMovePlayer()
     {
+        if (ZuDangState == ZuDangType.KongXi)
+        {
+            return KongXiDt.IsMovePlayer;
+        }
+
         bool isMovePlayer = true;
         for (int i = 0; i < ZuDangArray.Length; i++)
         {
