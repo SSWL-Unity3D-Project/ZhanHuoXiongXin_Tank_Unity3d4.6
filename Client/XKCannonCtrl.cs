@@ -11,7 +11,7 @@ public class XKCannonCtrl : MonoBehaviour {
 	GameObject[] DaPaoAmmoLiZiObj;
 	public Transform PaoGuan;
 	public Transform[] SpawnAmmoPoint;
-	[Range(1f, 1000f)] public float FireDis = 50f;
+	[Range(0f, 1000f)] public float FireDis = 50f;
 	//炮管角度控制.
 	/*[Range(275f, 355f)]public float MaxPaoGuanJDVal = 355f;
 	[Range(275f, 355f)]public float MinPaoGuanJDVal = 275f;*/
@@ -39,7 +39,11 @@ public class XKCannonCtrl : MonoBehaviour {
 	public NpcPathCtrl AmmoMovePath; //拍摄循环动画时，使子弹可以做抛物线运动.
 	Transform CannonTran;
 	bool IsDoFireAnimation;
-	bool IsDeathNpc;
+    /// <summary>
+    /// npc是否被击杀.
+    /// </summary>
+    [HideInInspector]
+    public bool IsDeathNpc;
 	bool IsStopAnimation;
 	bool IsDouGuanDaPao;
 	bool IsPlayPaoGuanAnimation;
@@ -58,8 +62,8 @@ public class XKCannonCtrl : MonoBehaviour {
 		}
 
 		if (SpawnAmmoPoint.Length <= 0) {
-			Debug.LogWarning("XKCannonCtrl -> SpawnAmmoPoint was wrong!");
-			IsOutputError = true;
+			//Debug.LogWarning("XKCannonCtrl -> SpawnAmmoPoint was wrong!");
+			//IsOutputError = true;
 		}
 		else {
 			for (int i = 0; i < SpawnAmmoPoint.Length; i ++) {

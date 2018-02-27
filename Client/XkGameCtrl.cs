@@ -482,7 +482,12 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 	}
 
-	public void ChangeAudioListParent()
+    void Start()
+    {
+        InputEventCtrl.GetInstance().ClickStopMovePlayerEvent += ClickStopMovePlayerEvent;
+    }
+
+    public void ChangeAudioListParent()
 	{
 		if (Network.peerType == NetworkPeerType.Server) {
 			return;
@@ -526,15 +531,27 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// 控制玩家运动/停止.
+    /// </summary>
+    [HideInInspector]
     public bool IsStopMovePlayer = false;
-	void Update()
-	{
-        if (Input.GetKeyUp(KeyCode.W))
+    /// <summary>
+    /// 是否激活阻挡触发器.
+    /// 如果激活阻挡触发器,
+    /// </summary>
+    bool IsActiveZuDangTrigger = false;
+    void ClickStopMovePlayerEvent(ButtonState state)
+    {
+        if (state == ButtonState.DOWN)
         {
-            IsStopMovePlayer = !IsStopMovePlayer;
+            SetIsStopMovePlayer(!IsStopMovePlayer);
         }
+    }
 
-		if (Input.GetKeyUp(KeyCode.P) && GameMovieCtrl.IsTestThreeScreen) {
+    void Update()
+	{
+        if (Input.GetKeyUp(KeyCode.P) && GameMovieCtrl.IsTestThreeScreen) {
 			GameMovieCtrl.TestGameThreeScreen();
 		}
 
@@ -1964,7 +1981,21 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 	}
 
-	void OnGUI()
+    public void SetIsStopMovePlayer(bool isStop)
+    {
+        if (IsActiveZuDangTrigger)
+        {
+            return;
+        }
+        IsStopMovePlayer = isStop;
+    }
+
+    public void SetIsActiveZuDangTrigger(bool isActive)
+    {
+        IsActiveZuDangTrigger = isActive;
+    }
+
+    void OnGUI()
 	{
 		if (IsCartoonShootTest || !IsShowDebugInfoBox) {
 			return;
