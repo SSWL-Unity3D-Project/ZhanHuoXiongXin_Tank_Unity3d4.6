@@ -1,5 +1,5 @@
 ﻿//#define TEST_SHUIQIANG_ZUOBIAO
-//#define COM_TANK_TEST
+#define COM_TANK_TEST
 /**
  * 当该属性COM_TANK_TEST打开后,用来在台儿庄机台上测试坦克游戏.
  */
@@ -13,7 +13,7 @@ using System.Collections;
 using System;
 
 public class pcvr : MonoBehaviour {
-	public static bool bIsHardWare = true;
+	public static bool bIsHardWare = false;
 	public static bool IsTestHardWareError = false;
 	public static Vector3 CrossPositionOne;
 	public static Vector3 CrossPositionTwo;
