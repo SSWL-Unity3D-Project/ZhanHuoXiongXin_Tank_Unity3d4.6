@@ -34,6 +34,10 @@ public class SSTriggerZuDang : MonoBehaviour
         /// </summary>
         public Transform[] AmmoPointTr;
         /// <summary>
+        /// 空袭提示的场景3d对象.
+        /// </summary>
+        public GameObject KongXiTiShiObj;
+        /// <summary>
         /// 产生导弹的延迟时间.
         /// </summary>
         [Range(0f, 600f)]
@@ -61,6 +65,14 @@ public class SSTriggerZuDang : MonoBehaviour
         if (ZuDangState == ZuDangType.Null)
         {
             gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < KongXiDt.AmmoPointTr.Length; i++)
+        {
+            if (KongXiDt.AmmoPointTr[i] != null)
+            {
+                KongXiDt.AmmoPointTr[i].gameObject.SetActive(false);
+            }
         }
     }
 
@@ -104,6 +116,10 @@ public class SSTriggerZuDang : MonoBehaviour
                         //RemoveAllZuDang();
                         //使玩家可以继续移动,当敌人空袭完成后.
                         KongXiDt.IsMovePlayer = true;
+                        if (KongXiDt.KongXiTiShiObj != null)
+                        {
+                            Destroy(KongXiDt.KongXiTiShiObj);
+                        }
                     }
                 }
             }
