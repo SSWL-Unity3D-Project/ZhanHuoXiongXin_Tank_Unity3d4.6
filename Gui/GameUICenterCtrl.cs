@@ -17,6 +17,13 @@ public class GameUICenterCtrl : SSUiRoot
     public Object KongXiZuDangUIPrefab;
     Object KongXiZuDangUIObj;
 
+    /// <summary>
+    /// 空袭倒计时UI界面预制.
+    /// </summary>
+    public Object KongXiDaoJiShiUIPrefab;
+    [HideInInspector]
+    public KongXiDaoJiShiUI mKongXiDaoJiShiUI;
+
     static GameUICenterCtrl _Instance;
     public static GameUICenterCtrl GetInstance()
     {
@@ -33,7 +40,10 @@ public class GameUICenterCtrl : SSUiRoot
     /// </summary>
     public void SpawnZuDangUI()
     {
-        ZuDangUIObj = Instantiate((GameObject)ZuDangUIPrefab, transform);
+        if (ZuDangUIObj == null)
+        {
+            ZuDangUIObj = Instantiate((GameObject)ZuDangUIPrefab, transform);
+        }
     }
 
     /// <summary>
@@ -46,14 +56,16 @@ public class GameUICenterCtrl : SSUiRoot
             Destroy(ZuDangUIObj);
         }
     }
-
-
+    
     /// <summary>
     /// 产生空袭阻挡UI界面.
     /// </summary>
     public void SpawnKongXiZuDangUI()
     {
-        KongXiZuDangUIObj = Instantiate((GameObject)KongXiZuDangUIPrefab, transform);
+        if (KongXiZuDangUIObj == null)
+        {
+            KongXiZuDangUIObj = Instantiate((GameObject)KongXiZuDangUIPrefab, transform);
+        }
     }
 
     /// <summary>
@@ -64,6 +76,31 @@ public class GameUICenterCtrl : SSUiRoot
         if (KongXiZuDangUIObj != null)
         {
             Destroy(KongXiZuDangUIObj);
+        }
+    }
+
+
+    /// <summary>
+    /// 产生空袭倒计时UI界面.
+    /// </summary>
+    public void SpawnKongXiDaoJiShiUI(int daoJiShiVal)
+    {
+        if (mKongXiDaoJiShiUI == null)
+        {
+            GameObject obj = (GameObject)Instantiate((GameObject)KongXiDaoJiShiUIPrefab, transform);
+            mKongXiDaoJiShiUI = obj.GetComponent<KongXiDaoJiShiUI>();
+            mKongXiDaoJiShiUI.ShwoTimeVal(daoJiShiVal);
+        }
+    }
+
+    /// <summary>
+    /// 删除空袭倒计时UI界面.
+    /// </summary>
+    public void RemoveKongXiDaoJishiUI()
+    {
+        if (mKongXiDaoJiShiUI != null)
+        {
+            Destroy(mKongXiDaoJiShiUI.gameObject);
         }
     }
 }

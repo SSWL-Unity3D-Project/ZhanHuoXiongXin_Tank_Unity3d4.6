@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SSTriggerZuDang : MonoBehaviour
 {
@@ -34,10 +35,33 @@ public class SSTriggerZuDang : MonoBehaviour
         /// </summary>
         public Transform[] AmmoPointTr;
         /// <summary>
+        /// 空袭点.
+        /// </summary>
+        public GameObject KongXiDianObj;
+        /// <summary>
+        /// 空袭隐藏cube.
+        /// </summary>
+        public GameObject[] HiddenObjArray;
+        /// <summary>
+        /// 导弹对玩家的伤害距离.
+        /// </summary>
+        [Range(0f, 100f)]
+        public float DamageDis = 25f;
+        /// <summary>
+        /// 导弹对玩家的伤害.
+        /// </summary>
+        [Range(0f, 1000f)]
+        public float PlayerDamage = 15f;
+        /// <summary>
         /// 产生导弹的延迟时间.
         /// </summary>
         [Range(0f, 600f)]
         public float TimeSpawnDaoDan = 15f;
+        /// <summary>
+        /// 循环产生导弹的时间.
+        /// </summary>
+        [Range(0.1f, 600f)]
+        public float TimeLoopDaoDan = 1f;
         /// <summary>
         /// 空袭阻挡删除的延迟时间.
         /// </summary>
@@ -45,6 +69,13 @@ public class SSTriggerZuDang : MonoBehaviour
         public float TimeRemoveZuDang = 3f;
         [HideInInspector]
         public float TimeLastKongXi = 0f;
+        [HideInInspector]
+        public float TimeLastKongXiDaoJiShi = 0f;
+        /// <summary>
+        /// 倒计时数据.
+        /// </summary>
+        [HideInInspector]
+        public int DaoJiShiVal = 0;
         [HideInInspector]
         public bool IsCreatKongXiDaoDan = false;
         [HideInInspector]
@@ -58,9 +89,29 @@ public class SSTriggerZuDang : MonoBehaviour
 
     void Start()
     {
-        if (ZuDangState == ZuDangType.Null)
+        switch (ZuDangState)
         {
-            gameObject.SetActive(false);
+            case ZuDangType.Null:
+                {
+                    gameObject.SetActive(false);
+                    break;
+                }
+            case ZuDangType.KongXi:
+                {
+                    if (KongXiDt.HiddenObjArray.Length > 0)
+                    {
+                        for (int i = 0; i < KongXiDt.HiddenObjArray.Length; i++)
+                        {
+                            if (KongXiDt.HiddenObjArray[i] != null)
+                            {
+                                KongXiDt.HiddenObjArray[i].SetActive(false);
+                            }
+                        }
+                    }
+                    KongXiDt.TimeSpawnDaoDan = Mathf.CeilToInt(KongXiDt.TimeSpawnDaoDan);
+                    KongXiDt.DaoJiShiVal = (int)KongXiDt.TimeSpawnDaoDan;
+                    break;
+                }
         }
     }
 
@@ -80,6 +131,14 @@ public class SSTriggerZuDang : MonoBehaviour
         {
             TestPlayerPath.DrawPath();
         }
+
+        if (ZuDangState == ZuDangType.KongXi)
+        {
+            if (KongXiDt.KongXiDianObj != null && KongXiDt.DamageDis > 0f)
+            {
+                Gizmos.DrawWireSphere(KongXiDt.KongXiDianObj.transform.position, KongXiDt.DamageDis);
+            }
+        }
     }
 
     void Update()
@@ -88,11 +147,31 @@ public class SSTriggerZuDang : MonoBehaviour
         {
             if (ZuDangState == ZuDangType.KongXi)
             {
-                if (!KongXiDt.IsCreatKongXiDaoDan && Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeSpawnDaoDan)
+                if (!KongXiDt.IsCreatKongXiDaoDan)
                 {
-                    KongXiDt.IsCreatKongXiDaoDan = true;
-                    KongXiDt.TimeLastKongXi = Time.time;
-                    SpawnKongXiDaoDan(KongXiDt.DaoDanPrefab);
+                    if (Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeSpawnDaoDan)
+                    {
+                        if (GameUICenterCtrl.GetInstance() != null)
+                        {
+                            GameUICenterCtrl.GetInstance().RemoveKongXiDaoJishiUI();
+                        }
+                        KongXiDt.IsCreatKongXiDaoDan = true;
+                        KongXiDt.TimeLastKongXi = Time.time;
+                        //产生空袭导弹.
+                        SpawnKongXiDaoDan(KongXiDt.DaoDanPrefab);
+                    }
+                    else
+                    {
+                        if (Time.time - KongXiDt.TimeLastKongXiDaoJiShi >= 1f)
+                        {
+                            KongXiDt.TimeLastKongXiDaoJiShi = Time.time;
+                            KongXiDt.DaoJiShiVal--;
+                            if (GameUICenterCtrl.GetInstance() != null)
+                            {
+                                GameUICenterCtrl.GetInstance().mKongXiDaoJiShiUI.ShwoTimeVal(KongXiDt.DaoJiShiVal);
+                            }
+                        }
+                    }
                 }
 
                 if (KongXiDt.IsCreatKongXiDaoDan && !KongXiDt.IsRemoveKongXiZuDang && Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeRemoveZuDang)
@@ -102,6 +181,11 @@ public class SSTriggerZuDang : MonoBehaviour
                     {
                         //删除空袭阻挡.
                         //RemoveAllZuDang();
+                        //删除空袭点.
+                        if (KongXiDt.KongXiDianObj != null)
+                        {
+                            Destroy(KongXiDt.KongXiDianObj);
+                        }
                         //使玩家可以继续移动,当敌人空袭完成后.
                         KongXiDt.IsMovePlayer = true;
                     }
@@ -158,20 +242,24 @@ public class SSTriggerZuDang : MonoBehaviour
         if (!CheckIsMovePlayer())
         {
             IsActiveTrigger = true;
-            KongXiDt.TimeLastKongXi = Time.time;
-            XkGameCtrl.GetInstance().SetIsStopMovePlayer(true);
-            XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
+            KongXiDt.TimeLastKongXi = KongXiDt.TimeLastKongXiDaoJiShi = Time.time;
             //打开提示框UI.
             switch (ZuDangState)
             {
                 case ZuDangType.PuTong:
                     {
+                        XkGameCtrl.GetInstance().SetIsStopMovePlayer(true);
+                        XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
                         GameUICenterCtrl.GetInstance().SpawnZuDangUI();
                         break;
                     }
                 case ZuDangType.KongXi:
                     {
-                        GameUICenterCtrl.GetInstance().SpawnKongXiZuDangUI();
+                        if (GameUICenterCtrl.GetInstance() != null)
+                        {
+                            GameUICenterCtrl.GetInstance().SpawnKongXiZuDangUI();
+                            GameUICenterCtrl.GetInstance().SpawnKongXiDaoJiShiUI((int)KongXiDt.TimeSpawnDaoDan);
+                        }
                         break;
                     }
             }
@@ -228,15 +316,47 @@ public class SSTriggerZuDang : MonoBehaviour
             Debug.LogWarning("SpawnPlayerDaoDan -> playerDaoDan was null");
             return;
         }
+        StartCoroutine(LoopSpawnKongXiDaoDan(playerDaoDan));
+    }
 
-        int max = KongXiDt.AmmoPointTr.Length;
-        for (int i = 0; i < max; i++)
+    /// <summary>
+    /// 循环产生空袭导弹.
+    /// </summary>
+    IEnumerator LoopSpawnKongXiDaoDan(GameObject playerDaoDan)
+    {
+        bool isDamagePlayer = false;
+        do
         {
-            if (mPlayerScript != null && KongXiDt.AmmoPointTr[i] != null)
+            if (KongXiDt.IsRemoveKongXiZuDang)
             {
-                KongXiDt.AmmoPointTr[i].gameObject.SetActive(false);
-                mPlayerScript.SpawnPlayerDaoDan(KongXiDt.AmmoPointTr[i], playerDaoDan);
+                Debug.Log("LoopSpawnKongXiDaoDan -> stop!");
+                yield break;
             }
+
+            int max = KongXiDt.AmmoPointTr.Length;
+            for (int i = 0; i < max; i++)
+            {
+                if (mPlayerScript != null && KongXiDt.AmmoPointTr[i] != null)
+                {
+                    KongXiDt.AmmoPointTr[i].gameObject.SetActive(false);
+                    mPlayerScript.SpawnPlayerDaoDan(KongXiDt.AmmoPointTr[i], playerDaoDan);
+                }
+            }
+
+            if (!isDamagePlayer)
+            {
+                Vector3 pos1 = KongXiDt.KongXiDianObj.transform.position;
+                Vector3 pos2 = XkPlayerCtrl.GetInstanceTanKe().transform.position;
+                pos1.y = pos2.y = 0f;
+                if (Vector3.Distance(pos1, pos2) <= KongXiDt.DamageDis)
+                {
+                    isDamagePlayer = true;
+                    XkGameCtrl.GetInstance().SubPlayerYouLiang(PlayerEnum.PlayerOne, KongXiDt.PlayerDamage);
+                    XkGameCtrl.GetInstance().SubPlayerYouLiang(PlayerEnum.PlayerTwo, KongXiDt.PlayerDamage);
+                }
+            }
+            yield return new WaitForSeconds(KongXiDt.TimeLoopDaoDan);
         }
+        while (!KongXiDt.IsRemoveKongXiZuDang);
     }
 }

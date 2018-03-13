@@ -1033,6 +1033,7 @@ public class XkGameCtrl : MonoBehaviour {
 			System.GC.Collect();
 			switch (SelectYouLiangUI) {
 			case 1:
+                //单管油量.
 				if (PlayerYouLiangCur <= 0f
 				    || !ScreenDanHeiCtrl.IsStartGame
 				    || !ZhunXingTeXiaoCtrl.IsOverTeXiaoZhunXing) {
@@ -1067,6 +1068,7 @@ public class XkGameCtrl : MonoBehaviour {
 				}
 				break;
 			case 2:
+                //双管油量.
 				if ((PlayerYouLiangCurP1 <= 0f && PlayerYouLiangCurP2 <= 0f)
 				    || !ScreenDanHeiCtrl.IsStartGame
 				    || !ZhunXingTeXiaoCtrl.IsOverTeXiaoZhunXing) {
@@ -1142,6 +1144,46 @@ public class XkGameCtrl : MonoBehaviour {
 			}
 		} while(true);
 	}
+
+    /// <summary>
+    /// 减少玩家油量.
+    /// </summary>
+    public void SubPlayerYouLiang(PlayerEnum indexPlayer, float subVal)
+    {
+        switch (indexPlayer)
+        {
+            case PlayerEnum.PlayerOne:
+                {
+                    if (IsActivePlayerOne)
+                    {
+                        if (PlayerYouLiangCurP1 > subVal)
+                        {
+                            PlayerYouLiangCurP1 -= subVal;
+                        }
+                        else
+                        {
+                            PlayerYouLiangCurP1 = 0f;
+                        }
+                    }
+                    break;
+                }
+            case PlayerEnum.PlayerTwo:
+                {
+                    if (IsActivePlayerTwo)
+                    {
+                        if (PlayerYouLiangCurP2 > subVal)
+                        {
+                            PlayerYouLiangCurP2 -= subVal;
+                        }
+                        else
+                        {
+                            PlayerYouLiangCurP2 = 0f;
+                        }
+                    }
+                    break;
+                }
+        }
+    }
 
 	public void AddPlayerYouLiang(float val, PlayerEnum indexPlayer = PlayerEnum.Null)
 	{
