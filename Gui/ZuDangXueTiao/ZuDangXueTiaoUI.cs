@@ -6,7 +6,7 @@ public class ZuDangXueTiaoUI : MonoBehaviour
     /// 阻挡血条.
     /// </summary>
     public UISprite mXuTiaoSprite;
-    public XKNpcHealthCtrl mNpcHealth;
+    XKNpcHealthCtrl mNpcHealth;
     public void Init(XKNpcHealthCtrl npcHealth)
     {
         if (npcHealth != null)
