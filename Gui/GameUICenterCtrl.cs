@@ -21,8 +21,21 @@ public class GameUICenterCtrl : SSUiRoot
     /// 空袭倒计时UI界面预制.
     /// </summary>
     public Object KongXiDaoJiShiUIPrefab;
+    /// <summary>
+    /// 空袭倒计时UI.
+    /// </summary>
     [HideInInspector]
     public KongXiDaoJiShiUI mKongXiDaoJiShiUI;
+
+    /// <summary>
+    /// 阻挡血条UI界面预制.
+    /// </summary>
+    public Object ZuDangXueTiaoUIPrefab;
+    /// <summary>
+    /// 阻挡血条UI.
+    /// </summary>
+    [HideInInspector]
+    public ZuDangXueTiaoUI mZuDangXueTiaoUI;
 
     static GameUICenterCtrl _Instance;
     public static GameUICenterCtrl GetInstance()
@@ -78,8 +91,7 @@ public class GameUICenterCtrl : SSUiRoot
             Destroy(KongXiZuDangUIObj);
         }
     }
-
-
+    
     /// <summary>
     /// 产生空袭倒计时UI界面.
     /// </summary>
@@ -101,6 +113,30 @@ public class GameUICenterCtrl : SSUiRoot
         if (mKongXiDaoJiShiUI != null)
         {
             Destroy(mKongXiDaoJiShiUI.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// 产生阻挡血条UI界面.
+    /// </summary>
+    public void SpawnZuDangXueTiaoUI(float xueLiang)
+    {
+        if (mZuDangXueTiaoUI == null)
+        {
+            GameObject obj = (GameObject)Instantiate((GameObject)ZuDangXueTiaoUIPrefab, transform);
+            mZuDangXueTiaoUI = obj.GetComponent<ZuDangXueTiaoUI>();
+            mZuDangXueTiaoUI.Init(xueLiang);
+        }
+    }
+
+    /// <summary>
+    /// 删除阻挡血条UI界面.
+    /// </summary>
+    public void RemoveZuDangXueTiaoUI()
+    {
+        if (mZuDangXueTiaoUI != null)
+        {
+            Destroy(mZuDangXueTiaoUI.gameObject);
         }
     }
 }

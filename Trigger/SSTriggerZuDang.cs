@@ -202,12 +202,19 @@ public class SSTriggerZuDang : MonoBehaviour
                 {
                     case ZuDangType.PuTong:
                         {
-                            GameUICenterCtrl.GetInstance().RemoveZuDangUI();
+                            if (GameUICenterCtrl.GetInstance() != null)
+                            {
+                                GameUICenterCtrl.GetInstance().RemoveZuDangUI();
+                                GameUICenterCtrl.GetInstance().RemoveZuDangXueTiaoUI();
+                            }
                             break;
                         }
                     case ZuDangType.KongXi:
                         {
-                            GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
+                            if (GameUICenterCtrl.GetInstance() != null)
+                            {
+                                GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
+                            }
                             break;
                         }
                 }
@@ -250,7 +257,11 @@ public class SSTriggerZuDang : MonoBehaviour
                     {
                         XkGameCtrl.GetInstance().SetIsStopMovePlayer(true);
                         XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
-                        GameUICenterCtrl.GetInstance().SpawnZuDangUI();
+                        if (GameUICenterCtrl.GetInstance() != null)
+                        {
+                            GameUICenterCtrl.GetInstance().SpawnZuDangUI();
+                            GameUICenterCtrl.GetInstance().SpawnZuDangXueTiaoUI(1f);
+                        }
                         break;
                     }
                 case ZuDangType.KongXi:
