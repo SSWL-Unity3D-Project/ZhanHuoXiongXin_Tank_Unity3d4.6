@@ -260,7 +260,14 @@ public class SSTriggerZuDang : MonoBehaviour
                         if (GameUICenterCtrl.GetInstance() != null)
                         {
                             GameUICenterCtrl.GetInstance().SpawnZuDangUI();
-                            GameUICenterCtrl.GetInstance().SpawnZuDangXueTiaoUI(1f);
+                            if (ZuDangArray[0] != null)
+                            {
+                                XKNpcHealthCtrl npcHealth = ZuDangArray[0].GetComponent<XKNpcHealthCtrl>();
+                                if (npcHealth != null)
+                                {
+                                    GameUICenterCtrl.GetInstance().SpawnZuDangXueTiaoUI(npcHealth);
+                                }
+                            }
                         }
                         break;
                     }

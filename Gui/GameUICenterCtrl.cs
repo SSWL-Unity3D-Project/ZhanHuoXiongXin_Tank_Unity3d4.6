@@ -119,13 +119,13 @@ public class GameUICenterCtrl : SSUiRoot
     /// <summary>
     /// 产生阻挡血条UI界面.
     /// </summary>
-    public void SpawnZuDangXueTiaoUI(float xueLiang)
+    public void SpawnZuDangXueTiaoUI(XKNpcHealthCtrl npcHealth)
     {
         if (mZuDangXueTiaoUI == null)
         {
             GameObject obj = (GameObject)Instantiate((GameObject)ZuDangXueTiaoUIPrefab, transform);
             mZuDangXueTiaoUI = obj.GetComponent<ZuDangXueTiaoUI>();
-            mZuDangXueTiaoUI.Init(xueLiang);
+            mZuDangXueTiaoUI.Init(npcHealth);
         }
     }
 

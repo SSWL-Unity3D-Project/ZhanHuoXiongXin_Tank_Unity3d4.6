@@ -332,4 +332,41 @@ public class XKNpcHealthCtrl : MonoBehaviour {
 			break;
 		}
 	}
+    
+    public float GetHealthValue()
+    {
+        float health = 0f;
+        int maxPuTongAmmoVal = MaxPuTongAmmo; //单机单人.
+        if (XkGameCtrl.GameModeVal == GameMode.LianJi
+            && XkPlayerCtrl.PlayerTranFeiJi != null
+            && XkPlayerCtrl.PlayerTranTanKe != null)
+        {
+            if (XkGameCtrl.IsActivePlayerOne && XkGameCtrl.IsActivePlayerTwo)
+            {
+                if (NpcJiFen != NpcJiFenEnum.ShiBing)
+                {
+                    maxPuTongAmmoVal = LJMaxPuTongAmmoSR; //联机双人.
+                }
+            }
+            else
+            {
+                if (NpcJiFen != NpcJiFenEnum.ShiBing)
+                {
+                    maxPuTongAmmoVal = LJMaxPuTongAmmoSR; //联机单人.
+                }
+            }
+        }
+        else
+        {
+            if (XkGameCtrl.IsActivePlayerOne && XkGameCtrl.IsActivePlayerTwo)
+            {
+                if (NpcJiFen != NpcJiFenEnum.ShiBing)
+                {
+                    maxPuTongAmmoVal = MaxPuTongAmmoSR; //单机双人.
+                }
+            }
+        }
+        health = (float)(maxPuTongAmmoVal - PuTongAmmoCount) / maxPuTongAmmoVal;
+        return health;
+    }
 }
