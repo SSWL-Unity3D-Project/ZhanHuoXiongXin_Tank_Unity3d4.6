@@ -137,7 +137,17 @@ public class XkGameCtrl : MonoBehaviour {
 	public static float YouLiangBuJiNum = 30f;
 	public static float PlayerYouLiangMax = 60f;
 	public static float PlayerYouLiangCur = 60f;
-	public static float PlayerYouLiangCurP1 = 60f;
+    /// <summary>
+    /// 运动时减少油量数值.
+    /// </summary>
+    [Range(0.01f, 100f)]
+    public float SubPlayerYouLiang01 = 1f;
+    /// <summary>
+    /// 怠速时减少油量数值.
+    /// </summary>
+    [Range(0.01f, 100f)]
+    public float SubPlayerYouLiang02 = 0.5f;
+    public static float PlayerYouLiangCurP1 = 60f;
 	public static float PlayerYouLiangCurP2 = 60f;
 	public static bool IsActivePlayerOne;
 	public static bool IsActivePlayerTwo;
@@ -1075,8 +1085,9 @@ public class XkGameCtrl : MonoBehaviour {
 					continue;
 				}
 
-				if (PlayerYouLiangCurP1 > 0) {
-					PlayerYouLiangCurP1 -= 1f;
+                float subPlayerYouLiang = IsStopMovePlayer == false ? SubPlayerYouLiang01 : SubPlayerYouLiang02;
+                if (PlayerYouLiangCurP1 > 0) {
+					PlayerYouLiangCurP1 -= subPlayerYouLiang;
 					//PlayerYouLiangCurP1 += 1f; //test
 					if (!pcvr.bIsHardWare && !IsSubPlayerYouLiangTest) {
 						PlayerYouLiangCurP1 += 1f; //test
@@ -1084,7 +1095,7 @@ public class XkGameCtrl : MonoBehaviour {
 				}
 
 				if (PlayerYouLiangCurP2 > 0) {
-					PlayerYouLiangCurP2 -= 1f;
+					PlayerYouLiangCurP2 -= subPlayerYouLiang;
 					//PlayerYouLiangCurP2 += 1f; //test
 					if (!pcvr.bIsHardWare && !IsSubPlayerYouLiangTest) {
 						PlayerYouLiangCurP2 += 1f; //test
