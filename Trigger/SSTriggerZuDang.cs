@@ -373,6 +373,14 @@ public class SSTriggerZuDang : MonoBehaviour
                     isDamagePlayer = true;
                     XkGameCtrl.GetInstance().SubPlayerYouLiang(PlayerEnum.PlayerOne, KongXiDt.PlayerDamage);
                     XkGameCtrl.GetInstance().SubPlayerYouLiang(PlayerEnum.PlayerTwo, KongXiDt.PlayerDamage);
+                    if (!XkGameCtrl.IsActivePlayerOne && !XkGameCtrl.IsActivePlayerTwo)
+                    {
+                        if (GameUICenterCtrl.GetInstance() != null)
+                        {
+                            GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
+                            GameUICenterCtrl.GetInstance().RemoveKongXiDaoJishiUI();
+                        }
+                    }
                 }
             }
             yield return new WaitForSeconds(KongXiDt.TimeLoopDaoDan);

@@ -489,8 +489,9 @@ public class XkGameCtrl : MonoBehaviour {
 
 		if (MinRandTimeServer >= MaxRandTimeServer) {
 			Debug.LogWarning("MinRandTimeServer was wrong!");
-		}
-	}
+        }
+        SetIsStopMovePlayer(true);
+    }
 
     void Start()
     {
@@ -553,9 +554,18 @@ public class XkGameCtrl : MonoBehaviour {
     bool IsActiveZuDangTrigger = false;
     void ClickStopMovePlayerEvent(ButtonState state)
     {
-        if (state == ButtonState.DOWN)
+        switch(state)
         {
-            SetIsStopMovePlayer(!IsStopMovePlayer);
+            case ButtonState.DOWN:
+                {
+                    SetIsStopMovePlayer(false);
+                    break;
+                }
+            case ButtonState.UP:
+                {
+                    SetIsStopMovePlayer(true);
+                    break;
+                }
         }
     }
 
@@ -1193,6 +1203,17 @@ public class XkGameCtrl : MonoBehaviour {
                     }
                     break;
                 }
+        }
+
+        //show DaoJiShiInfo.
+        if (PlayerYouLiangCurP1 <= 0f && PlayerYouLiangCurP2 <= 0f)
+        {
+            PlayerYouLiangCurP1 = 0f;
+            PlayerYouLiangCurP2 = 0f;
+            if (!JiFenJieMianCtrl.GetInstance().GetIsShowFinishTask())
+            {
+                DaoJiShiCtrl.GetInstance().StartPlayDaoJiShi();
+            }
         }
 
         if (PlayerYouLiangCurP1 <= 0f)
@@ -2062,7 +2083,11 @@ public class XkGameCtrl : MonoBehaviour {
         {
             return;
         }
-        IsStopMovePlayer = isStop;
+
+        if (IsActivePlayerOne || IsActivePlayerTwo)
+        {
+            IsStopMovePlayer = isStop;
+        }
     }
 
     public void SetIsActiveZuDangTrigger(bool isActive)

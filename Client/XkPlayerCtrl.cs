@@ -584,8 +584,11 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 
             if (XkGameCtrl.GetInstance().IsStopMovePlayer)
             {
-                yield return new WaitForSeconds(0.04f);
-                continue;
+                if (PlayerSt == PlayerTypeEnum.FeiJi || PlayerSt == PlayerTypeEnum.TanKe)
+                {
+                    yield return new WaitForSeconds(0.04f);
+                    continue;
+                }
             }
 			
 			if (!XkGameCtrl.IsActivePlayerOne
