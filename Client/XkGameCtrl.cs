@@ -1194,6 +1194,28 @@ public class XkGameCtrl : MonoBehaviour {
                     break;
                 }
         }
+
+        if (PlayerYouLiangCurP1 <= 0f)
+        {
+            PlayerYouLiangCurP1 = 0f;
+            SetActivePlayerOne(false);
+            if (YouLiangCtrl.IsActiveYouLiangFlash
+                && PlayerYouLiangCurP2 > YouLiangJingGaoVal)
+            {
+                YouLiangCtrl.GetInstance().SetActiveYouLiangFlash(false);
+            }
+        }
+
+        if (PlayerYouLiangCurP2 <= 0f)
+        {
+            PlayerYouLiangCurP2 = 0f;
+            SetActivePlayerTwo(false);
+            if (YouLiangCtrl.IsActiveYouLiangFlash
+                && PlayerYouLiangCurP1 > YouLiangJingGaoVal)
+            {
+                YouLiangCtrl.GetInstance().SetActiveYouLiangFlash(false);
+            }
+        }
     }
 
 	public void AddPlayerYouLiang(float val, PlayerEnum indexPlayer = PlayerEnum.Null)
