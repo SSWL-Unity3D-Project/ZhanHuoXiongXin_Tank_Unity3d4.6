@@ -177,6 +177,7 @@ public class SSTriggerZuDang : MonoBehaviour
                 if (KongXiDt.IsCreatKongXiDaoDan && !KongXiDt.IsRemoveKongXiZuDang && Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeRemoveZuDang)
                 {
                     KongXiDt.IsRemoveKongXiZuDang = true;
+                    Debug.Log("removeKongXiZuDang -> time " + Time.time);
                     if (!CheckIsMovePlayer())
                     {
                         //删除空袭阻挡.
@@ -351,6 +352,7 @@ public class SSTriggerZuDang : MonoBehaviour
                 yield break;
             }
 
+            Debug.Log("LoopSpawnKongXiDaoDan -> time " + Time.time);
             int max = KongXiDt.AmmoPointTr.Length;
             for (int i = 0; i < max; i++)
             {
