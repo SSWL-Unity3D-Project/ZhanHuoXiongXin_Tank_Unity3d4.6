@@ -65,7 +65,7 @@ public class XKGlobalData {
 				SetGameTextMode(GameTextType.Chinese);
 			}
 			GameTextVal = gmText == "0" ? GameTextType.Chinese : GameTextType.English;
-			GameTextVal = GameTextType.English; //test.
+			//GameTextVal = GameTextType.English; //test.
 
 			GetGameDiffVal();
 
