@@ -64,7 +64,11 @@ public class XkGameCtrl : MonoBehaviour {
 	int YouLiangDianVal;
 	int YouLiangDianValP1;
 	int YouLiangDianValP2;
-	[Range(1, 99)] public int DaoDanNum = 50;
+    /// <summary>
+    /// 导弹初始数量.
+    /// </summary>
+    [Range(1, 99)]
+    public int DaoDanNum = 50;
 	public GameObject FeiJiPlayer;
 	public AiMark FeiJiPlayerMark;
 	Transform FeiJiPlayerTran;
@@ -128,7 +132,11 @@ public class XkGameCtrl : MonoBehaviour {
 	public static int FeiJiNumPTwo;
 	int AllPlayerKillNpc;
 	const int GaoBaoDanBuJiNum = 99;
-	int DaoDanBuJiNum = 3;
+    /// <summary>
+    /// 导弹补给数量.
+    /// </summary>
+    [Range(1, 50)]
+    public int DaoDanBuJiNum = 3;
 	public static int DaoDanNumPOne;
 	public static int DaoDanNumPTwo;
 	public static int GaoBaoDanNumPOne;
