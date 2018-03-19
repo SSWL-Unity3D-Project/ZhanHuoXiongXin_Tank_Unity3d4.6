@@ -557,9 +557,19 @@ public class XkGameCtrl : MonoBehaviour {
     public bool IsStopMovePlayer = false;
     /// <summary>
     /// 是否激活阻挡触发器.
-    /// 如果激活阻挡触发器,
+    /// 如果激活阻挡触发器,那么玩家油门将失去作用.
     /// </summary>
     bool IsActiveZuDangTrigger = false;
+    /// <summary>
+    /// 是否激活无敌状态.
+    /// 如果激活无敌状态,那么玩家油门将失去作用.
+    /// </summary>
+    bool IsActiveWuDiState = false;
+    public void SetIsActiveWuDiState(bool isActive)
+    {
+        IsActiveWuDiState = isActive;
+    }
+
     void ClickStopMovePlayerEvent(ButtonState state)
     {
         switch(state)
@@ -1104,6 +1114,11 @@ public class XkGameCtrl : MonoBehaviour {
 				}
 
                 float subPlayerYouLiang = IsStopMovePlayer == false ? SubPlayerYouLiang01 : SubPlayerYouLiang02;
+                if (IsActiveWuDiState)
+                {
+                    subPlayerYouLiang = 0f;
+                }
+
                 if (PlayerYouLiangCurP1 > 0) {
 					PlayerYouLiangCurP1 -= subPlayerYouLiang;
 					//PlayerYouLiangCurP1 += 1f; //test
@@ -1304,7 +1319,7 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 	}
 
-	[Range(0f, 100f)]public float GameDiffTest = 0.8f;
+	//[Range(0f, 100f)]public float GameDiffTest = 0.8f;
 	public static float GameDiffVal = 1f;
 	/**
 	 * GameDiffDiArray[0] -> 第一关油量点控制(游戏难度-低).
@@ -2088,6 +2103,11 @@ public class XkGameCtrl : MonoBehaviour {
     public void SetIsStopMovePlayer(bool isStop)
     {
         if (IsActiveZuDangTrigger)
+        {
+            return;
+        }
+
+        if (IsActiveWuDiState)
         {
             return;
         }

@@ -65,5 +65,7 @@ public class XKTriggerOpenPlayerUI : MonoBehaviour
 		XkPlayerCtrl.GetInstanceCartoon().RestartMovePlayer(1);
 		XkPlayerCtrl.GetInstanceCartoon().MakePlayerMoveToAiMark(AiMarkComStatic);
 		XkPlayerCtrl.GetInstanceCartoon().SetPlayerCameraTran();
-	}
+
+        XkGameCtrl.GetInstance().SetIsActiveWuDiState(false);
+    }
 }
