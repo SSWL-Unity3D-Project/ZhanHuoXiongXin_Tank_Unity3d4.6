@@ -67,5 +67,6 @@ public class XKTriggerOpenPlayerUI : MonoBehaviour
 		XkPlayerCtrl.GetInstanceCartoon().SetPlayerCameraTran();
 
         XkGameCtrl.GetInstance().SetIsActiveWuDiState(false);
+        XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(true);
     }
 }
