@@ -197,7 +197,7 @@ public class SSTriggerZuDang : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 XkGameCtrl.GetInstance().SetIsActiveZuDangTrigger(false);
-                XkGameCtrl.GetInstance().SetIsStopMovePlayer(false);
+                //XkGameCtrl.GetInstance().SetIsStopMovePlayer(false);
                 //关闭提示框UI.
                 switch (ZuDangState)
                 {
