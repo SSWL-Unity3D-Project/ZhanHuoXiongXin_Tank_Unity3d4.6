@@ -567,12 +567,21 @@ public class XkGameCtrl : MonoBehaviour {
     bool IsActiveWuDiState = false;
     public void SetIsActiveWuDiState(bool isActive)
     {
-        IsActiveWuDiState = isActive;
+        if (IsActivePlayerOne || IsActivePlayerTwo)
+        {
+            IsActiveWuDiState = isActive;
+        }
     }
-
+    
+    /// <summary>
+    /// 运动按键状态.
+    /// </summary>
+    [HideInInspector]
+    public ButtonState MoveBtState = ButtonState.UP;
     void ClickStopMovePlayerEvent(ButtonState state)
     {
-        switch(state)
+        MoveBtState = state;
+        switch (state)
         {
             case ButtonState.DOWN:
                 {
@@ -1546,7 +1555,12 @@ public class XkGameCtrl : MonoBehaviour {
 			ZhunXingCtrl.GetInstanceOne().SetActiveZhunXingObj(isActive);
 		}
 		SetPlayerFireMaxAmmoCount();
-	}
+
+        if (IsActivePlayerOne && !IsActivePlayerTwo)
+        {
+            _Instance.SetIsStopMovePlayer(_Instance.MoveBtState == ButtonState.UP ? true : false);
+        }
+    }
 
 	public static void SetActivePlayerTwo(bool isActive)
 	{
@@ -1592,7 +1606,12 @@ public class XkGameCtrl : MonoBehaviour {
 			ZhunXingCtrl.GetInstanceTwo().SetActiveZhunXingObj(isActive);
 		}
 		SetPlayerFireMaxAmmoCount();
-	}
+
+        if (!IsActivePlayerOne && IsActivePlayerTwo)
+        {
+            _Instance.SetIsStopMovePlayer(_Instance.MoveBtState == ButtonState.UP ? true : false);
+        }
+    }
 	
 	static void SetPlayerFireMaxAmmoCount()
 	{		
@@ -2120,7 +2139,10 @@ public class XkGameCtrl : MonoBehaviour {
 
     public void SetIsActiveZuDangTrigger(bool isActive)
     {
-        IsActiveZuDangTrigger = isActive;
+        if (IsActivePlayerOne || IsActivePlayerTwo)
+        {
+            IsActiveZuDangTrigger = isActive;
+        }
     }
 
     void OnGUI()
