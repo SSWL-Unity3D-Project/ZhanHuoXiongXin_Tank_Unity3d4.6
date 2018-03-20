@@ -108,6 +108,17 @@ public class SSTriggerZuDang : MonoBehaviour
                             }
                         }
                     }
+
+                    if (KongXiDt.AmmoPointTr.Length > 0)
+                    {
+                        for (int i = 0; i < KongXiDt.AmmoPointTr.Length; i++)
+                        {
+                            if (KongXiDt.AmmoPointTr[i] != null)
+                            {
+                                KongXiDt.AmmoPointTr[i].gameObject.SetActive(false);
+                            }
+                        }
+                    }
                     KongXiDt.TimeSpawnDaoDan = Mathf.CeilToInt(KongXiDt.TimeSpawnDaoDan);
                     KongXiDt.DaoJiShiVal = (int)KongXiDt.TimeSpawnDaoDan;
                     break;
