@@ -139,4 +139,31 @@ public class GameUICenterCtrl : SSUiRoot
             Destroy(mZuDangXueTiaoUI.gameObject);
         }
     }
+
+    /// <summary>
+    /// 阻挡击杀后的奖励UI预制.
+    /// </summary>
+    public GameObject ZuDangJiangLiUIPrefab;
+    GameObject ZuDangJiangLiUI;
+    /// <summary>
+    /// 产生击杀阻挡奖励UI界面.
+    /// </summary>
+    public void SpawnZuDangJiangLiUI()
+    {
+        if (ZuDangJiangLiUI == null && ZuDangJiangLiUIPrefab != null)
+        {
+            ZuDangJiangLiUI = (GameObject)Instantiate(ZuDangJiangLiUIPrefab, transform);
+        }
+    }
+
+    /// <summary>
+    /// 删除击杀阻挡奖励UI界面.
+    /// </summary>
+    public void RemoveZuDangJiangLiUI()
+    {
+        if (ZuDangJiangLiUI != null)
+        {
+            Destroy(ZuDangJiangLiUI);
+        }
+    }
 }

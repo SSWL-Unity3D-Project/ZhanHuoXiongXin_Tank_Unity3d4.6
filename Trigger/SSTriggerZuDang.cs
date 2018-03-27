@@ -222,6 +222,7 @@ public class SSTriggerZuDang : MonoBehaviour
                             {
                                 GameUICenterCtrl.GetInstance().RemoveZuDangUI();
                                 GameUICenterCtrl.GetInstance().RemoveZuDangXueTiaoUI();
+                                GameUICenterCtrl.GetInstance().SpawnZuDangJiangLiUI();
                             }
                             break;
                         }
