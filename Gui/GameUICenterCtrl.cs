@@ -166,4 +166,59 @@ public class GameUICenterCtrl : SSUiRoot
             Destroy(ZuDangJiangLiUI);
         }
     }
+    
+    /// <summary>
+    /// 空袭闪红提示UI预制.
+    /// </summary>
+    public GameObject KongXiShanHongUIPrefab;
+    GameObject KongXiShanHongUI;
+    /// <summary>
+    /// 产生空袭闪红提示UI界面.
+    /// </summary>
+    public void SpawnKongXiShanHongUI()
+    {
+        if (KongXiShanHongUI == null && KongXiShanHongUIPrefab != null)
+        {
+            KongXiShanHongUI = (GameObject)Instantiate(KongXiShanHongUIPrefab, transform);
+        }
+    }
+
+    /// <summary>
+    /// 删除空袭闪红提示UI界面.
+    /// </summary>
+    public void RemoveKongXiShanHongUI()
+    {
+        if (KongXiShanHongUI != null)
+        {
+            Destroy(KongXiShanHongUI);
+        }
+    }
+
+    /// <summary>
+    /// 被空袭击中提示UI预制.
+    /// </summary>
+    public GameObject KongXiJiZhongUIPrefab;
+    [HideInInspector]
+    public GameObject KongXiJiZhongUI;
+    /// <summary>
+    /// 产生玩家被空袭击中提示UI界面.
+    /// </summary>
+    public void SpawnKongXiJiZhongUI()
+    {
+        if (KongXiJiZhongUI == null && KongXiJiZhongUIPrefab != null)
+        {
+            KongXiJiZhongUI = (GameObject)Instantiate(KongXiJiZhongUIPrefab, transform);
+        }
+    }
+
+    /// <summary>
+    /// 删除玩家被空袭击中提示UI界面.
+    /// </summary>
+    public void RemoveKongXiJiZhongUI()
+    {
+        if (KongXiJiZhongUI != null)
+        {
+            Destroy(KongXiJiZhongUI);
+        }
+    }
 }

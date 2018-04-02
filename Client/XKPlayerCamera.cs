@@ -2,7 +2,11 @@
 using System.Collections;
 
 public class XKPlayerCamera : MonoBehaviour {
-	Transform CameraTran;
+    /// <summary>
+    /// 画面颜色变黑白控制组件.
+    /// </summary>
+    public CameraColorChange mCameraColorChange;
+    Transform CameraTran;
 	Transform AimTran;
 	Transform CameraParent;
 	float SpeedIntoAim = 0.1f;

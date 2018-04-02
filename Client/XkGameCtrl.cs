@@ -1122,6 +1122,12 @@ public class XkGameCtrl : MonoBehaviour {
 					continue;
 				}
 
+                if (GameUICenterCtrl.GetInstance() != null
+                        && GameUICenterCtrl.GetInstance().KongXiJiZhongUI != null)
+                {
+                    continue;
+                }
+
                 float subPlayerYouLiang = IsStopMovePlayer == false ? SubPlayerYouLiang01 : SubPlayerYouLiang02;
                 if (IsActiveWuDiState)
                 {
@@ -1209,6 +1215,7 @@ public class XkGameCtrl : MonoBehaviour {
                 {
                     if (IsActivePlayerOne)
                     {
+                        subVal = PlayerYouLiangCurP1; //空袭玩家被炸死.
                         if (PlayerYouLiangCurP1 > subVal)
                         {
                             PlayerYouLiangCurP1 -= subVal;
@@ -1224,6 +1231,7 @@ public class XkGameCtrl : MonoBehaviour {
                 {
                     if (IsActivePlayerTwo)
                     {
+                        subVal = PlayerYouLiangCurP2; //空袭玩家被炸死.
                         if (PlayerYouLiangCurP2 > subVal)
                         {
                             PlayerYouLiangCurP2 -= subVal;
@@ -1242,18 +1250,17 @@ public class XkGameCtrl : MonoBehaviour {
         {
             PlayerYouLiangCurP1 = 0f;
             PlayerYouLiangCurP2 = 0f;
-            if (!JiFenJieMianCtrl.GetInstance().GetIsShowFinishTask())
-            {
-                DaoJiShiCtrl.GetInstance().StartPlayDaoJiShi();
-            }
+            //if (!JiFenJieMianCtrl.GetInstance().GetIsShowFinishTask())
+            //{
+            //    DaoJiShiCtrl.GetInstance().StartPlayDaoJiShi();
+            //}
         }
 
         if (PlayerYouLiangCurP1 <= 0f)
         {
             PlayerYouLiangCurP1 = 0f;
-            SetActivePlayerOne(false);
-            if (YouLiangCtrl.IsActiveYouLiangFlash
-                && PlayerYouLiangCurP2 > YouLiangJingGaoVal)
+            //SetActivePlayerOne(false);
+            if (YouLiangCtrl.IsActiveYouLiangFlash)
             {
                 YouLiangCtrl.GetInstance().SetActiveYouLiangFlash(false);
             }
@@ -1262,9 +1269,8 @@ public class XkGameCtrl : MonoBehaviour {
         if (PlayerYouLiangCurP2 <= 0f)
         {
             PlayerYouLiangCurP2 = 0f;
-            SetActivePlayerTwo(false);
-            if (YouLiangCtrl.IsActiveYouLiangFlash
-                && PlayerYouLiangCurP1 > YouLiangJingGaoVal)
+            //SetActivePlayerTwo(false);
+            if (YouLiangCtrl.IsActiveYouLiangFlash)
             {
                 YouLiangCtrl.GetInstance().SetActiveYouLiangFlash(false);
             }
@@ -1536,7 +1542,13 @@ public class XkGameCtrl : MonoBehaviour {
 				if (DanYaoInfoCtrl.GetInstanceOne() != null) {
 					DanYaoInfoCtrl.GetInstanceOne().ShowPlayerDanYaoInfo();
 				}
-			}
+
+                if (XkPlayerCtrl.GetInstanceTanKe() != null && XkPlayerCtrl.GetInstanceTanKe().GetPlayerCameraScript() != null)
+                {
+                    //画面恢复为彩色.
+                    XkPlayerCtrl.GetInstanceTanKe().GetPlayerCameraScript().mCameraColorChange.Close();
+                }
+            }
 			else {
 				DanYaoInfoCtrl.GetInstanceOne().HiddenPlayerDanYaoInfo();
 				if (XkGameCtrl.GetInstance() != null) {
@@ -1586,8 +1598,14 @@ public class XkGameCtrl : MonoBehaviour {
 				CheckMovePlayer();
 				if (DanYaoInfoCtrl.GetInstanceTwo() != null) {
 					DanYaoInfoCtrl.GetInstanceTwo().ShowPlayerDanYaoInfo();
-				}
-			}
+                }
+
+                if (XkPlayerCtrl.GetInstanceTanKe() != null && XkPlayerCtrl.GetInstanceTanKe().GetPlayerCameraScript() != null)
+                {
+                    //画面恢复为彩色.
+                    XkPlayerCtrl.GetInstanceTanKe().GetPlayerCameraScript().mCameraColorChange.Close();
+                }
+            }
 			else {
 				DanYaoInfoCtrl.GetInstanceTwo().HiddenPlayerDanYaoInfo();
 				if (XkGameCtrl.GetInstance() != null) {

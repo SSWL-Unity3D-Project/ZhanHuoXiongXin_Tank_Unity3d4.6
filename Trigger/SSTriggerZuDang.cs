@@ -158,6 +158,11 @@ public class SSTriggerZuDang : MonoBehaviour
         {
             if (ZuDangState == ZuDangType.KongXi)
             {
+                if (!IsPlayerIntoKongXiJingJie)
+                {
+                    CheckPlayerIsIntoKongXiJingJie();
+                }
+
                 if (!KongXiDt.IsCreatKongXiDaoDan)
                 {
                     if (Time.time - KongXiDt.TimeLastKongXi >= KongXiDt.TimeSpawnDaoDan)
@@ -231,6 +236,7 @@ public class SSTriggerZuDang : MonoBehaviour
                             if (GameUICenterCtrl.GetInstance() != null)
                             {
                                 GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
+                                GameUICenterCtrl.GetInstance().RemoveKongXiShanHongUI();
                             }
                             break;
                         }
@@ -389,18 +395,52 @@ public class SSTriggerZuDang : MonoBehaviour
                     isDamagePlayer = true;
                     XkGameCtrl.GetInstance().SubPlayerYouLiang(PlayerEnum.PlayerOne, KongXiDt.PlayerDamage);
                     XkGameCtrl.GetInstance().SubPlayerYouLiang(PlayerEnum.PlayerTwo, KongXiDt.PlayerDamage);
-                    if (!XkGameCtrl.IsActivePlayerOne && !XkGameCtrl.IsActivePlayerTwo)
+                    if (GameUICenterCtrl.GetInstance() != null)
                     {
-                        if (GameUICenterCtrl.GetInstance() != null)
-                        {
-                            GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
-                            GameUICenterCtrl.GetInstance().RemoveKongXiDaoJishiUI();
-                        }
+                        GameUICenterCtrl.GetInstance().RemoveKongXiZuDangUI();
+                        GameUICenterCtrl.GetInstance().RemoveKongXiShanHongUI();
+                        GameUICenterCtrl.GetInstance().RemoveKongXiDaoJishiUI();
+                        GameUICenterCtrl.GetInstance().SpawnKongXiJiZhongUI();
+                    }
+
+                    if (mPlayerScript.GetPlayerCameraScript() != null)
+                    {
+                        //画面开始变黑白.
+                        mPlayerScript.GetPlayerCameraScript().mCameraColorChange.Init();
                     }
                 }
             }
             yield return new WaitForSeconds(KongXiDt.TimeLoopDaoDan);
         }
         while (!KongXiDt.IsRemoveKongXiZuDang);
+    }
+
+    bool IsPlayerIntoKongXiJingJie = false;
+    /// <summary>
+    /// 检测玩家是否进入空袭警戒范围.
+    /// </summary>
+    void CheckPlayerIsIntoKongXiJingJie()
+    {
+        if (!XkGameCtrl.IsActivePlayerOne && !XkGameCtrl.IsActivePlayerTwo)
+        {
+            return;
+        }
+
+        if (IsPlayerIntoKongXiJingJie)
+        {
+            return;
+        }
+
+        Vector3 pos1 = KongXiDt.KongXiDianObj.transform.position;
+        Vector3 pos2 = XkPlayerCtrl.GetInstanceTanKe().transform.position;
+        pos1.y = pos2.y = 0f;
+        if (Vector3.Distance(pos1, pos2) <= KongXiDt.DamageDis)
+        {
+            IsPlayerIntoKongXiJingJie = true;
+            if (GameUICenterCtrl.GetInstance() != null)
+            {
+                GameUICenterCtrl.GetInstance().SpawnKongXiShanHongUI();
+            }
+        }
     }
 }
