@@ -158,10 +158,10 @@ public class SSTriggerZuDang : MonoBehaviour
         {
             if (ZuDangState == ZuDangType.KongXi)
             {
-                if (!IsPlayerIntoKongXiJingJie)
-                {
-                    CheckPlayerIsIntoKongXiJingJie();
-                }
+                //if (!IsPlayerIntoKongXiJingJie)
+                //{
+                //    CheckPlayerIsIntoKongXiJingJie();
+                //}
 
                 if (!KongXiDt.IsCreatKongXiDaoDan)
                 {
@@ -182,6 +182,11 @@ public class SSTriggerZuDang : MonoBehaviour
                         {
                             KongXiDt.TimeLastKongXiDaoJiShi = Time.time;
                             KongXiDt.DaoJiShiVal--;
+                            if (KongXiDt.DaoJiShiVal == 3 && !IsPlayerIntoKongXiJingJie)
+                            {
+                                SpawnKongXiShanHongUI();
+                            }
+
                             if (GameUICenterCtrl.GetInstance() != null)
                             {
                                 GameUICenterCtrl.GetInstance().mKongXiDaoJiShiUI.ShwoTimeVal(KongXiDt.DaoJiShiVal);
@@ -441,6 +446,28 @@ public class SSTriggerZuDang : MonoBehaviour
             {
                 GameUICenterCtrl.GetInstance().SpawnKongXiShanHongUI();
             }
+        }
+    }
+    
+    /// <summary>
+    /// 产生空袭闪红UI.
+    /// </summary>
+    void SpawnKongXiShanHongUI()
+    {
+        if (!XkGameCtrl.IsActivePlayerOne && !XkGameCtrl.IsActivePlayerTwo)
+        {
+            return;
+        }
+
+        if (IsPlayerIntoKongXiJingJie)
+        {
+            return;
+        }
+        IsPlayerIntoKongXiJingJie = true;
+
+        if (GameUICenterCtrl.GetInstance() != null)
+        {
+            GameUICenterCtrl.GetInstance().SpawnKongXiShanHongUI();
         }
     }
 }
